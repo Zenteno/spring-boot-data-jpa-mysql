@@ -15,11 +15,18 @@ services:
     env_file: .env
     networks: 
       - red
-    ports: 
-      - "8080:8080"
-    build: .
+    build: 
+      context: back
     depends_on: 
       - db
+  front:
+    container_name: vue
+    networks: 
+      - red
+    ports: 
+      - "80:80"
+    build: 
+      context: vue-js-crud-example
 
 networks: 
   red:
