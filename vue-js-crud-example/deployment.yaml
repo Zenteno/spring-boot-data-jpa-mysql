@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: front-deployment
+  namespace: mi-espacio
   labels:
     app: front
 spec:
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
       - name: front
-        image: frontapp
+        image: frontapp:20210301
         imagePullPolicy: Never
         ports:
         - containerPort: 80
@@ -27,6 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mi-servicio-front
+  namespace: mi-espacio
 spec:
   selector:
     app: front
