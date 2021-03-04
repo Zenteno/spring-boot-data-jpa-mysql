@@ -16,8 +16,17 @@ spec:
         app: spring
     spec:
       containers:
+      - name: proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.11
+        command: ["/cloud_sql_proxy",
+            "-instances=proyecto-gen2:us-east1:mi-instancia-sql=tcp:3306",
+            "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+        - name: cloudsql-instance-credentials
+          mountPath: /secrets/cloudsql
+          readOnly: true
       - name: spring
-        image: springapp
+        image: us.gcr.io/proyecto-gen2/spring-back
         env:
         - name: DB_NAME
           valueFrom:
@@ -40,10 +49,12 @@ spec:
               name: db-credentials
               key: DB_PASS
         
-        imagePullPolicy: Never
         ports:
         - containerPort: 8080
-
+      volumes:
+      - name: cloudsql-instance-credentials
+        secret:
+          secretName: cloudsql-instance-credentials
 ---
 
 apiVersion: v1

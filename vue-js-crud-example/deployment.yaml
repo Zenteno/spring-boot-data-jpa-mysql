@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
       - name: front
-        image: frontapp:20210301
-        imagePullPolicy: Never
+        image: us.gcr.io/proyecto-gen2/vue-front
         ports:
         - containerPort: 80
 
@@ -34,6 +33,6 @@ spec:
     app: front
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 80
   type: LoadBalancer
